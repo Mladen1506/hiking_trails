@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormLabel, Radio, RadioGroup, TextareaAutosize } from '@mui/material';
+import { validator } from 'sequelize/dist/lib/utils/validator-extras';
 
 const FormTour = () => {
 
@@ -32,7 +33,37 @@ const FormTour = () => {
       ...formState,
       [name]: value
     });
-  }
+  };
+
+  const validator = (formState) => {
+    let test = true;
+
+    if (formState.name === '') {
+      test = false;
+    }
+    if (formState.description === '') {
+      test = false;
+    }
+    if (formState.trail_length < 1) {
+      test = false;
+    }
+    if (formState.max_participants < 1) {
+      test = false;
+    }
+
+    return test;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validator(formState)) {
+      //ako prodje validaciju
+      console.log('submit...');
+      console.log(formState);
+    } else {
+      window.alert('Form Validation Error')
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -51,7 +82,7 @@ const FormTour = () => {
           </Typography>
           <Box
             component="form"
-            onSubmit={() => { }}
+            onSubmit={(handleSubmit)}
             noValidate sx={{ mt: 1 }}
           >
             <TextField
