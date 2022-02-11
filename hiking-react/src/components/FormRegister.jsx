@@ -33,7 +33,7 @@ const FormRegister = () => {
   const validator = () => {
     let test = true;
 
-    if (formState.username === ''){
+    if (formState.username === '' || formState.username.length < 3){
       test = false;
     }
     if (formState.password === ''){
