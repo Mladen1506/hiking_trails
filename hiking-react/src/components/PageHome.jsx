@@ -32,12 +32,21 @@ const PageHome = (props) => {
 
   const filteredTours = tours.filter((tour) => {
     let test = true;
-    if (tour.difficulty === formState.difficulty || formState.difficulty === 'ALL') {
     
+    // filtering po searchu
+    if (formState.search !== '') {
+      if (tour.name.toUpperCase().includes(formState.search.toUpperCase()) || tour.description.includes(formState.search.toUpperCase())) {
+      } else {
+        test = false;
+      }
+    }
+
+    if (tour.difficulty === formState.difficulty || formState.difficulty === 'ALL') {
+
     } else {
       test = false;
     }
-    if (tour.trail_length >= formState.trail_length_min && tour.trail_length <= formState.trail_length_max){
+    if (tour.trail_length >= formState.trail_length_min && tour.trail_length <= formState.trail_length_max) {
 
     } else {
       test = false;
@@ -73,6 +82,17 @@ const PageHome = (props) => {
             alignItems: 'center',
           }}
         >
+          <TextField
+            id="search"
+            label="Filter by keywords"
+            name="search"
+            value={formState.search}
+            onChange={handleChange}
+            margin="normal"
+            required
+            fullWidth
+            autoFocus
+          />
 
           <Grid container>
             <Grid item xs>
