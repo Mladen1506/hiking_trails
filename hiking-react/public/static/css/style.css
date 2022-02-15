@@ -1,0 +1,25 @@
+header {
+    height: 100px;
+    background-color: lightgrey;
+}
+
+header nav {
+    display: flex;
+    flex-direction: row;
+}
+
+header nav div {
+    margin-right: 30px;
+}
+
+.page-body {
+    padding: 30px;
+}
+
+table.my-tours {
+    border: 1px solid black;
+}
+
+table.my-tours tr td {
+    border-bottom: 1px solid gray
+}

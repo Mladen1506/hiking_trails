@@ -60,14 +60,17 @@ const App = () => {
         <p>
           Hiking trails
         </p>
-        <div onClick={handleClickHome}>Home</div>
-        <div onClick={handleClickRegister}>Register</div>
-        <div onClick={handleClickLogin}>Login</div>
-        <div onClick={handleClickAddTour}>Add Tour</div>
-        <div onClick={handleClickMyTours}>My Tours</div>
-        <div onClick={handleClickAddReview}>Add Review</div>
-        <div onClick={handleClickAbout}>About...</div>
+        <nav>
+          <div onClick={handleClickHome}>Home</div>
+          <div onClick={handleClickRegister}>Register</div>
+          <div onClick={handleClickLogin}>Login</div>
+          <div onClick={handleClickAddTour}>Add Tour</div>
+          <div onClick={handleClickMyTours}>My Tours</div>
+          <div onClick={handleClickAddReview}>Add Review</div>
+          <div onClick={handleClickAbout}>About...</div>
+        </nav>
       </header>
+      <div className='page-body'></div>
       <PageRouter />
     </div>
   );
