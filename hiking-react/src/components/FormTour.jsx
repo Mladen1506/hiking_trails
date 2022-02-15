@@ -9,16 +9,20 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormLabel, Radio, RadioGroup, TextareaAutosize } from '@mui/material';
 import { validator } from 'sequelize/dist/lib/utils/validator-extras';
+import props from 'prop-types';
+
+
 
 const FormTour = () => {
-
   const theme = createTheme();
+
+  const modeEdit = props.modeEdit;
 
   const preset = {
     name: '',
     description: '',
     date: '02/09/2022',
-    trail_length:'1',
+    trail_length: '1',
     difficulty: '',
     max_participants: '10'
   }
@@ -60,6 +64,11 @@ const FormTour = () => {
       //ako prodje validaciju
       console.log('submit...');
       console.log(formState);
+      if (modeEdit) {
+
+      }else {
+        
+      }
     } else {
       window.alert('Form Validation Error')
     }
@@ -78,7 +87,7 @@ const FormTour = () => {
           }}
         >
           <Typography component="h1" variant="h3">
-            Create Tour
+            {modeEdit ? 'Edit Tour' : 'Create Tour'}
           </Typography>
           <Box
             component="form"
@@ -154,14 +163,26 @@ const FormTour = () => {
               fullWidth
               autoFocus
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Create
-            </Button>
+            {modeEdit ? (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Save Changes
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Create
+              </Button>
+            )
+            }
           </Box>
         </Box>
       </Container>
