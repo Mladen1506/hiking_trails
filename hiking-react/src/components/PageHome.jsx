@@ -3,6 +3,7 @@ import { Container, CssBaseline, FormControlLabel, FormLabel, Grid, Radio, Radio
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import TourItem from "./TourItem";
 
 
 
@@ -56,14 +57,7 @@ const PageHome = (props) => {
 
   let jsx = filteredTours.map((tour, index) => {
     return (
-      <div key={tour._id}>
-        <h4>{tour.name}</h4>
-        <div>{tour.description}</div>
-        <div>{tour.date}</div>
-        <div>{tour.trail_length}</div>
-        <div>{tour.difficulty}</div>
-        <div>{tour.max_participants}</div>
-      </div>
+      <TourItem key={tour._id} tour={tour} />
     );
   });
 
