@@ -28,7 +28,7 @@ const PageRouter = () => {
     ); 
   } else if (route === 'EDIT_TOUR') {
     jsx = (
-      <FormTour modeEdit />
+      <FormTour modeEdit/>
     ); 
   }else if (route === 'ADD_REVIEW') {
     jsx = (
