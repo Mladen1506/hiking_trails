@@ -13,7 +13,7 @@ import props from 'prop-types';
 
 
 
-const FormTour = () => {
+const FormTour = (props) => {
   const theme = createTheme();
 
   const modeEdit = props.modeEdit;
@@ -67,7 +67,7 @@ const FormTour = () => {
       if (modeEdit) {
 
       }else {
-        
+
       }
     } else {
       window.alert('Form Validation Error')
