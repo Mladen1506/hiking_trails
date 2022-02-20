@@ -20,7 +20,7 @@ const PageMyTours = (props) => {
       payload: {
         route:'EDIT_TOUR',
         params: {
-          id: 123
+          tour_id: tour_id
         }
       }
     })

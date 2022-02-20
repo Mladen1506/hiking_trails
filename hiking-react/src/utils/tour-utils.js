@@ -14,3 +14,15 @@ export const calculateAverageRating = (reviews, tour_id) => {
     }
     return averageRating;
 };
+
+export const getSingleTourById = (tour_id, tours) => {
+    let selected = null;
+
+    tours.forEach((tour) => {
+        if (tour._id === tour_id) {
+            selected = tour;
+        }
+    })
+
+    return selected;
+};

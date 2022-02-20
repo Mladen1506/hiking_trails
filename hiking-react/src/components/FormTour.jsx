@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -8,13 +9,18 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormLabel, Radio, RadioGroup, TextareaAutosize } from '@mui/material';
-import { validator } from 'sequelize/dist/lib/utils/validator-extras';
-import props from 'prop-types';
+import { getSingleTourById } from '../utils/tour-utils';
 
 
 
 const FormTour = (props) => {
   const theme = createTheme();
+
+  const routeParams = useSelector((state) => state.routeParams);
+  const tours = useSelector((state) => state.tours);
+
+
+  const tour_id = routeParams.tour_id;
 
   const modeEdit = props.modeEdit;
 
@@ -28,6 +34,11 @@ const FormTour = (props) => {
   }
 
   const [formState, setFormState] = useState(preset);
+
+  useEffect(() => {
+    const editingTour = getSingleTourById(tour_id, tours)
+    setFormState(editingTour);
+  }, [tour_id, tours])
 
   const handleChange = (e) => {
     const target = e.target;
@@ -66,7 +77,7 @@ const FormTour = (props) => {
       console.log(formState);
       if (modeEdit) {
 
-      }else {
+      } else {
 
       }
     } else {
