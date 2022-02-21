@@ -1,3 +1,6 @@
+const Glupost = require('../models/glupost-model');
+
+
 // GRAPPHQL RESOLVERS
 
 // The root provides a resolver function for each API endpoint
@@ -19,6 +22,15 @@ var root = {
         console.log(context.headers);
         return 'We just tested arguments for resolver';
     },
+    napraviGlupost: async() => {
+        //test if mongdb works 
+        const results = await Glupost.create({
+            nesto: 'test',
+            nesto2: 'test2'
+        })
+        console.log(results);
+        return "MongDb Successful";
+    }
 };
 
 module.exports = root;

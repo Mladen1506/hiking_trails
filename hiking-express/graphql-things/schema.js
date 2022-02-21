@@ -10,6 +10,7 @@ var schema = buildSchema(`
     random: Float!
     testContext(something: String): String
     testResolver: String
+    napraviGlupost: String
   }
 `);
 
