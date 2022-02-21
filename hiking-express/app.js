@@ -37,6 +37,6 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
-console.log('hiking express backend ready');
+console.log('******* hiking express backend ready');
 
 module.exports = app;
