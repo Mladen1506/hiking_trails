@@ -1,4 +1,5 @@
 const Glupost = require('../models/glupost-model');
+const User = require('../models/user-model');
 
 
 // GRAPPHQL RESOLVERS
@@ -27,7 +28,7 @@ var root = {
         const results = await Glupost.create({
             nesto: 'test',
             nesto2: 'test2'
-        })
+        });
         console.log(results);
         return "MongDb Successful";
     },
@@ -35,7 +36,20 @@ var root = {
         console.log('authRegister resolver')
         console.log('args');
         console.log(args);
-        return 'Returning response from authRegister'
+        // args accepted
+        //test if mongdb works 
+        if (args.password === args.password2) {
+            const results = await User.create({
+                username: args.username,
+                password: args.password
+            });
+
+            console.log(results); // results retutned by mongodb
+
+            return 'Returning response from authRegister'
+        } else {
+            return 'Error: Password must match!'
+        }
     }
 };
 
