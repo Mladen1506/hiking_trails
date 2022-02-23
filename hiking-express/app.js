@@ -20,6 +20,10 @@ var schema = require('./graphql-things/schema.js');
 
 var app = express();
 
+app.use(cors());
+// That’s it. CORS is now enabled. If you make a request to your app, you will notice a new header being returned: Access-Control-Allow-Origin: *
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -29,8 +33,8 @@ app.use(logger('dev'));
 // PARSERS (decoding)
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(express.urlencoded({ extended: false }));
+// app.use(cookieParser());
 
 // STATIC
 
@@ -48,10 +52,6 @@ app.use('/api/v2/graphql', graphqlHTTP({
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-
-
-app.use(cors());
-// That’s it. CORS is now enabled. If you make a request to your app, you will notice a new header being returned: Access-Control-Allow-Origin: *
 
 // catch 404 and forward to error handler, this is if none of the routes does not work
 app.use(function(req, res, next) {

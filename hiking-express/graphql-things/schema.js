@@ -11,6 +11,7 @@ var schema = buildSchema(`
     testContext(something: String): String
     testResolver: String
     napraviGlupost: String
+    authRegister(username: String, password: String, password2: String): String
   }
 `);
 
