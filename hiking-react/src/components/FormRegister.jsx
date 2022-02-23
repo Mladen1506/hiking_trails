@@ -8,6 +8,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ajax } from '../utils/ajax-adapter';
 
 const FormRegister = () => {
 
@@ -55,12 +56,13 @@ const FormRegister = () => {
     if (validator(formState)) {
       // ukoliko je prosla validacija
       console.log('click submit...')
-      console.log(formState)
+      console.log(formState);
+      ajax.authRegister(formState);
     } else {
       // ukoliko ne prodje validaciju
       window.alert('Form validation Error :(')
     }
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>

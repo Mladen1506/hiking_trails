@@ -13,13 +13,13 @@ var root = {
     },
     testContext: (args, context) => {
         console.log('testContext(args, context) If context is not provided, the request object is passed as the context.');
-        console.log('args');
-        console.log(args);
         // If context is not provided, the request object is passed as the context.
         console.log('context');
         console.log(context);
         console.log('context.headers');
         console.log(context.headers);
+        console.log('args');
+        console.log(args);
         return 'We just tested arguments for resolver';
     },
     napraviGlupost: async() => {
@@ -30,6 +30,12 @@ var root = {
         })
         console.log(results);
         return "MongDb Successful";
+    },
+    authRegister: async(args, context) => {
+        console.log('authRegister resolver')
+        console.log('args');
+        console.log(args);
+        return 'Returning response from authRegister'
     }
 };
 
