@@ -100,11 +100,18 @@ var root = {
             token: token
         });
         console.log(session);
-        if (results.user_id) {
-            const user_id = results.user_id;
-            const user =
+        if (session.user_id) {
+            const user_id = session.user_id;
+            const user = await User.findOne({
+                _id: user_id,
+            });
+            console.log(user);
+            return {
+                _id: user._id,
+                username: user.username,
+            };
         }
-    }
+    },
 };
 
 module.exports = root;
