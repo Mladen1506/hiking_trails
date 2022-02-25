@@ -4,6 +4,10 @@ import { convert_to_json } from "./ajax-utils";
 
 export const ajax = {};
 
+ajax.storeToken = (token) => {
+    window.localStorage.setItem('hiking_token', token);
+};
+
 ajax.authRegister = async(formData) => {
     // sending request for new user restration 
 
@@ -17,7 +21,23 @@ ajax.authRegister = async(formData) => {
             'Content-Type': 'application/json'
         }
     });
-    console.log('Axios response works', response)
+    console.log('Axios response for authRegister works', response)
+    return response;
+};
+ajax.authLogin = async(formData) => {
+    // sending request for new user restration 
+
+    // GRAPHQL
+    const graphql_query = {
+        query: '{ authLogin( username: "' + formData.username + '" password: "' + formData.password + '") }'
+    };
+    const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
+    const response = await axios.post('http://localhost:3001/api/v2/graphql', data_prepared, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    console.log('Axios response for authLogin works', response)
     return response;
 };
 
