@@ -1,6 +1,19 @@
+const jwt = require("jsonwebtoken");
+const { resourceLimits } = require("worker_threads");
 const Glupost = require('../models/glupost-model');
 const User = require('../models/user-model');
 
+
+//HELPERS
+
+const JWT_SECRET = 'NEKA_SUPER_TAJNA_STVAR';
+
+const tokenCreate = (user_id) => {
+    const token = jwt.sign({ user_id: user_id },
+        JWT_SECRET
+    );
+    return token;
+};
 
 // GRAPPHQL RESOLVERS
 
@@ -50,7 +63,28 @@ var root = {
         } else {
             return 'Error: Password must match!'
         }
-    }
+    },
+    authLogin: async(args, context) => {
+        console.log('authLogin resolver');
+        console.log('args');
+        console.log(args);
+        // first check, does in db users exists user with same username and password
+        const results = await User.findOne({
+            username: args.username,
+            password: args.password
+        });
+        console.log(results);
+        if (results && results._id) {
+            const user_id = results._id;
+            console.log('user_id', user_id);
+            const token = tokenCreate(user_id);
+            console.log('token', token);
+            // return token;
+            return token;
+        } else {
+            return 'Error: User with these credentials does not exists!'
+        }
+    },
 };
 
 module.exports = root;
