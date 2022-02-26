@@ -5,15 +5,14 @@ var { buildSchema } = require('graphql');
 var schema = buildSchema(`
 type User {
   _id: String
-  username: String,
+  is_success: Boolean
+  username: String
 }
   
   type Query {
     hello: String
-    quoteOfTheDay: String
     random: Float!
     testContext(something: String): String
-    testResolver: String
     napraviGlupost: String
     authRegister(username: String, password: String, password2: String): String
     authLogin(username: String, password: String): String

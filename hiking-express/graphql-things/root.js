@@ -106,10 +106,14 @@ var root = {
                 _id: user_id,
             });
             console.log(user);
-            return {
-                _id: user._id,
-                username: user.username,
-            };
+            if (user && user._id && user.username) {
+                return {
+                    _id: user._id,
+                    is_success: true,
+                    username: user.username,
+                };
+            }
+
         }
     },
 };

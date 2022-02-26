@@ -1,14 +1,30 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ajax } from '../utils/ajax-adapter';
 import PageRouter from './PageRouter';
 
 
 const App = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
+  const myUserName = useSelector(state => state.myUserName);
 
   useEffect(() => {
     ajax.myUserData()
+      .then((response) => {
+        console.log('test 2')
+        console.log('.then() response for my user data', response)
+        if (response && response.data && response.data.data && response.data.data.myUserData && response.data.data.myUserData._id) {
+          console.log(response.data.data.myUserData)
+          const myUserData = response.data.data.myUserData;
+          dispatch({
+            type: 'LOGIN_SUCCESS',
+            payload: myUserData
+          });
+        }
+      })
+    console.log('test 3')
   }, []);
 
   const handleClickHome = (e) => {
@@ -57,6 +73,15 @@ const App = () => {
     })
   };
 
+  let jsxLoggedInMessage = null;
+  if (isLoggedIn) {
+    jsxLoggedInMessage = (
+      <>
+      You are logged in now  <b>{myUserName}</b>
+      </>
+    );
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -73,7 +98,9 @@ const App = () => {
           <div onClick={handleClickAbout}>About...</div>
         </nav>
       </header>
-      <div className='page-body'></div>
+      <div className='page-body'>
+        <p>{jsxLoggedInMessage}</p>
+      </div>
       <PageRouter />
     </div>
   );
