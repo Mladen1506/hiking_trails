@@ -13,8 +13,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ajax } from '../utils/ajax-adapter';
+import { useDispatch } from 'react-redux';
 
 const FormLogin = () => {
+  const dispatch = useDispatch();
 
   const theme = createTheme();
 

@@ -12,6 +12,11 @@ ajax.getStoredToken = () => {
     return token;
 };
 
+ajax.deleteStoredToken = () => {
+    const token = window.localStorage.removeItem('hiking_token');
+    return token;
+};
+
 ajax.authRegister = async(formData) => {
     // sending request for new user restration 
 
@@ -33,7 +38,7 @@ ajax.authLogin = async(formData) => {
 
     // GRAPHQL
     const graphql_query = {
-        query: '{ username: "' + formData.username + '" password: "' + formData.password + '") }'
+        query: '{ authLogin( username: "' + formData.username + '" password: "' + formData.password + '") }'
     };
     const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
     const response = await axios.post('http://localhost:3001/api/v2/graphql', data_prepared, {
@@ -44,12 +49,29 @@ ajax.authLogin = async(formData) => {
     console.log('Axios response for authLogin works', response)
     return response;
 };
+ajax.authLogout = async(formData) => {
+    // sending request for new user restration 
+    const token = ajax.getStoredToken();
+    // GRAPHQL
+    const graphql_query = {
+        query: '{ authLogout( token: "' + token + '") }'
+    };
+    const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
+    const response = await axios.post('http://localhost:3001/api/v2/graphql', data_prepared, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    console.log('Axios response for authLogout works', response)
+    return response;
+};
+
 ajax.myUserData = async(formData) => {
     // sending request for new user restration 
     const token = ajax.getStoredToken();
     // GRAPHQL
     const graphql_query = {
-        query: '{ myUserData( token: "' + token + '") { _id username } }'
+        query: '{ myUserData( token: "' + token + '") { is_success _id username } }'
     };
     const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
     const response = await axios.post('http://localhost:3001/api/v2/graphql', data_prepared, {
