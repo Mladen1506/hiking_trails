@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ajax } from '../utils/ajax-adapter';
 import PageRouter from './PageRouter';
+import { ajax } from '../utils/ajax-adapter';
 
 
 const App = () => {
@@ -47,6 +47,16 @@ const App = () => {
       payload: 'LOGIN'
     })
   };
+  const handleClickLogout = (e) => {
+    ajax.authLogout()
+    .then(() => {
+      ajax.deleteStoredToken();
+      dispatch({
+        type: 'LOGOUT'
+      });
+      
+      })
+  };
 
   const handleClickAbout = (e) => {
     dispatch({
@@ -74,10 +84,32 @@ const App = () => {
   };
 
   let jsxLoggedInMessage = null;
+  let jsxMenu = null;
   if (isLoggedIn) {
     jsxLoggedInMessage = (
       <>
-      You are logged in now  <b>{myUserName}</b>
+        You are logged in now  <b>{myUserName}</b>
+      </>
+    );
+    jsxMenu = (
+      <>
+        <div onClick={handleClickHome}>Home</div>
+        <div onClick={handleClickLogout}>Logout</div>
+        <div onClick={handleClickMyTours}>My Tours</div>
+        <div onClick={handleClickAddTour}>Add Tour</div>
+        <div onClick={handleClickAddReview}>Add Review</div>
+        <div onClick={handleClickAbout}>About...</div>
+      </>
+    );
+  } else {
+    // when logged out
+    jsxMenu = (
+      <>
+        <div onClick={handleClickHome}>Home</div>
+        <div onClick={handleClickRegister}>Register</div>
+        <div onClick={handleClickLogin}>Login</div>
+        <div onClick={handleClickAbout}>About...</div>
+
       </>
     );
   }
@@ -89,13 +121,8 @@ const App = () => {
           Hiking trails
         </p>
         <nav>
-          <div onClick={handleClickHome}>Home</div>
-          <div onClick={handleClickRegister}>Register</div>
-          <div onClick={handleClickLogin}>Login</div>
-          <div onClick={handleClickAddTour}>Add Tour</div>
-          <div onClick={handleClickMyTours}>My Tours</div>
-          <div onClick={handleClickAddReview}>Add Review</div>
-          <div onClick={handleClickAbout}>About...</div>
+
+          {jsxMenu}
         </nav>
       </header>
       <div className='page-body'>

@@ -16,6 +16,8 @@ const tokenCreate = (user_id) => {
     return token;
 };
 
+
+
 // GRAPPHQL RESOLVERS
 
 // The root provides a resolver function for each API endpoint
@@ -90,6 +92,21 @@ var root = {
             return 'Error: User with these credentials does not exists!'
         }
     },
+
+    authLogout: async(args, context) => {
+        console.log('authLogout resolver');
+        console.log('args');
+        console.log(args);
+        const token = args.token;
+        console.log(token);
+
+        await AuthSession.findOneAndDelete({
+            token: token
+        });
+        return true;
+    },
+
+
     myUserData: async(args, context) => {
         console.log('myUserData resolver');
         console.log('args');
