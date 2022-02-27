@@ -61,6 +61,21 @@ const FormLogin = () => {
         if (response && response.data && response.data.data && response.data.data.authLogin) {
           const token = response.data.data.authLogin;
           ajax.storeToken(token);
+          // FORM LOGIN PROCEDURE DONE
+          ajax.myUserData()
+      .then((response) => {
+        console.log('test 2')
+        console.log('.then() response for my user data', response)
+        if (response && response.data && response.data.data && response.data.data.myUserData && response.data.data.myUserData._id) {
+          console.log(response.data.data.myUserData)
+          const myUserData = response.data.data.myUserData;
+          dispatch({
+            type: 'LOGIN_SUCCESS',
+            payload: myUserData
+          });
+        }
+      })
+
         }
       })
     } else {
