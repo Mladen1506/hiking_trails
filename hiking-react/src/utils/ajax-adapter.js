@@ -68,10 +68,13 @@ ajax.authLogin = async(formData) => {
 };
 ajax.authLogout = async(formData) => {
     // sending request for new user restration 
-    const token = ajax.getStoredToken();
+    // const token = ajax.getStoredToken();
     // GRAPHQL
+    // const graphql_query = {
+    //     query: '{ authLogout( token: "' + token + '") }'
+    // };
     const graphql_query = {
-        query: '{ authLogout( token: "' + token + '") }'
+        query: '{ authLogout }'
     };
     const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
     const response = await axios.post('http://localhost:3001/api/v2/graphql', data_prepared, {
