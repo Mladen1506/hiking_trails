@@ -51,10 +51,11 @@ const App = () => {
     ajax.authLogout()
     .then(() => {
       ajax.deleteStoredToken();
+      ajax.configureHeaders(null);
       dispatch({
         type: 'LOGOUT'
       });
-      
+
       })
   };
 
