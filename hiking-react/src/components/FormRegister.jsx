@@ -9,9 +9,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ajax } from '../utils/ajax-adapter';
+import { useDispatch } from 'react-redux';
 
 const FormRegister = () => {
 
+  const dispatch = useDispatch();
   const theme = createTheme();
 
   const preset = {
@@ -34,16 +36,16 @@ const FormRegister = () => {
   const validator = () => {
     let test = true;
 
-    if (formState.username === '' || formState.username.length < 3){
+    if (formState.username === '' || formState.username.length < 3) {
       test = false;
     }
-    if (formState.password === ''){
+    if (formState.password === '') {
       test = false;
     }
-    if (formState.password2 === ''){
+    if (formState.password2 === '') {
       test = false;
     }
-    if (formState.password !== formState.password2){
+    if (formState.password !== formState.password2) {
       test = false;
     }
 
@@ -57,85 +59,91 @@ const FormRegister = () => {
       // ukoliko je prosla validacija
       console.log('click submit...')
       console.log(formState);
-      ajax.authRegister(formState);
+      ajax.authRegister(formState)
+      .then(() => {
+        dispatch({
+          type: 'ROUTE_SET',
+          payload: 'LOGIN'
+        })
+      })
     } else {
-      // ukoliko ne prodje validaciju
-      window.alert('Form validation Error :(')
-    }
+  // ukoliko ne prodje validaciju
+  window.alert('Form validation Error :(')
+}
   };
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+return (
+  <ThemeProvider theme={theme}>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Register
+        </Typography>
         <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
+          component="form"
+          onSubmit={() => { }}
+          noValidate sx={{ mt: 1 }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Register
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={() => { }}
-            noValidate sx={{ mt: 1 }}
+          <TextField
+            label="Username"
+            name="username"
+            value={formState.username}
+            onChange={handleChange}
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            autoComplete="username"
+            autoFocus
+          />
+          <TextField
+            label="Password"
+            name="password"
+            value={formState.password}
+            onChange={handleChange}
+            type="password"
+            margin="normal"
+            required
+            fullWidth
+            id="password"
+            autoComplete="current-password"
+          />
+          <TextField
+            label="Confirm Password"
+            name="password2"
+            value={formState.password2}
+            onChange={handleChange}
+            type="password"
+            margin="normal"
+            required
+            fullWidth
+            id="password2"
+          />
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            onClick={handleClickSubmit}
           >
-            <TextField
-              label="Username"
-              name="username"
-              value={formState.username}
-              onChange={handleChange}
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              autoComplete="username"
-              autoFocus
-            />
-            <TextField
-              label="Password"
-              name="password"
-              value={formState.password}
-              onChange={handleChange}
-              type="password"
-              margin="normal"
-              required
-              fullWidth
-              id="password"
-              autoComplete="current-password"
-            />
-            <TextField
-              label="Confirm Password"
-              name="password2"
-              value={formState.password2}
-              onChange={handleChange}
-              type="password"
-              margin="normal"
-              required
-              fullWidth
-              id="password2"
-            />
-            <Button
-              type="button"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={handleClickSubmit}
-            >
-              Register
-            </Button>
-          </Box>
+            Register
+          </Button>
         </Box>
-      </Container>
-    </ThemeProvider>
-  )
+      </Box>
+    </Container>
+  </ThemeProvider>
+)
 };
 
 export default FormRegister;
