@@ -17,6 +17,23 @@ ajax.deleteStoredToken = () => {
     return token;
 };
 
+ajax.preparedHeadersForAxios = {
+    'Content-Type': 'application/json'
+};
+
+ajax.configureHeaders = (token) => {
+    if (token === null) {
+        ajax.preparedHeadersForAxios = {
+            'Content-Type': 'application/json'
+        };
+    } else {
+        ajax.preparedHeadersForAxios = {
+            'Content-Type': 'application/json',
+            'x-hiking-token': token
+        };
+    }
+};
+
 ajax.authRegister = async(formData) => {
     // sending request for new user restration 
 
@@ -58,9 +75,7 @@ ajax.authLogout = async(formData) => {
     };
     const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
     const response = await axios.post('http://localhost:3001/api/v2/graphql', data_prepared, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        headers: ajax.preparedHeadersForAxios
     });
     console.log('Axios response for authLogout works', response)
     return response;
@@ -69,15 +84,17 @@ ajax.authLogout = async(formData) => {
 ajax.myUserData = async(formData) => {
     // sending request for new user restration 
     const token = ajax.getStoredToken();
+    ajax.configureHeaders(token);
     // GRAPHQL
+    // const graphql_query = {
+    //     query: '{ myUserData( token: "' + token + '") { is_success _id username } }'
+    // };
     const graphql_query = {
-        query: '{ myUserData( token: "' + token + '") { is_success _id username } }'
+        query: '{ myUserData { is_success _id username } }'
     };
     const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
     const response = await axios.post('http://localhost:3001/api/v2/graphql', data_prepared, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        headers: ajax.preparedHeadersForAxios
     });
     console.log('Axios response for myUserData works', response)
     return response;

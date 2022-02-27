@@ -60,7 +60,8 @@ const FormLogin = () => {
         console.log(response);
         if (response && response.data && response.data.data && response.data.data.authLogin) {
           const token = response.data.data.authLogin;
-          ajax.storeToken(token);
+          ajax.storeToken(token); // saving token on hard disc
+          ajax.configureHeaders(token); 
           // FORM LOGIN PROCEDURE DONE
           ajax.myUserData()
       .then((response) => {
