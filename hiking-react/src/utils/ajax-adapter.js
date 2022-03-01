@@ -50,6 +50,7 @@ ajax.authRegister = async(formData) => {
     console.log('Axios response for authRegister works', response)
     return response;
 };
+
 ajax.authLogin = async(formData) => {
     // sending request for new user restration 
 
@@ -115,4 +116,28 @@ ajax.sacuvaj_token_lokalno_i_trajno = (token) => {
 
     // android native app
     // androidStorage('hiking_token', token)
+};
+
+ajax.tourCreate = async(formData) => {
+    // sending request for create new tour
+
+    // GRAPHQL
+    const graphql_query = {
+        query: '{ tourCreate( name: "' + formData.name + '" description: "' + formData.description + '" date: "' + formData.date + '" difficulty: "' + formData.difficulty + '" trail_length: ' + formData.trail_length + ' max_participants: ' + formData.max_participants + ')}'
+    };
+
+    // name: '',
+    //     description: '',
+    //     date: '02/09/2022',
+    //     trail_length: '1',
+    //     difficulty: '',
+    //     max_participants: '10'
+
+
+    const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
+    const response = await axios.post('http://localhost:3001/api/v2/graphql', data_prepared, {
+        headers: ajax.preparedHeadersForAxios
+    });
+    console.log('Axios response for tourCreate works', response)
+    return response;
 };

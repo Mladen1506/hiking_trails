@@ -10,6 +10,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormLabel, Radio, RadioGroup, TextareaAutosize } from '@mui/material';
 import { getSingleTourById } from '../utils/tour-utils';
+import { ajax } from '../utils/ajax-adapter';
 
 
 
@@ -78,7 +79,11 @@ const FormTour = (props) => {
       if (modeEdit) {
 
       } else {
-
+        ajax.tourCreate(formState)
+        .then((response) => {
+          console.log(response);
+        })
+        
       }
     } else {
       window.alert('Form Validation Error')
