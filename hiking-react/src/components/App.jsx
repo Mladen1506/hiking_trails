@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import PageRouter from './PageRouter';
 import { ajax } from '../utils/ajax-adapter';
 
-
 const App = () => {
   const dispatch = useDispatch();
 
@@ -25,6 +24,22 @@ const App = () => {
         }
       })
     console.log('test 3')
+  }, []);
+
+  useEffect(() => {
+    ajax.tourGetAll()
+      .then((response) => {
+        console.log('response za tour get all');
+        console.log(response);
+
+        if (response && response.data && response.data.data && Array.isArray(response.data.data.tourGetAll)) {
+          dispatch({
+            type: 'TOURS_FETCHED',
+            payload: response.data.data.tourGetAll
+          })
+        }
+
+      })
   }, []);
 
   const handleClickHome = (e) => {
@@ -49,12 +64,12 @@ const App = () => {
   };
   const handleClickLogout = (e) => {
     ajax.authLogout()
-    .then(() => {
-      ajax.deleteStoredToken();
-      ajax.configureHeaders(null);
-      dispatch({
-        type: 'LOGOUT'
-      });
+      .then(() => {
+        ajax.deleteStoredToken();
+        ajax.configureHeaders(null);
+        dispatch({
+          type: 'LOGOUT'
+        });
 
       })
   };

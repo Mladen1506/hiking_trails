@@ -8,6 +8,7 @@ const initialState = {
     myUserName: '',
     myUserId: '',
     tours: dummyTours,
+    tours: [],
     reviews: dummyReviews,
 };
 
@@ -45,6 +46,12 @@ const rootReducer = (state = initialState, action) => {
                 myUserId: '',
                 route: 'HOME', // After LOGOUT redirect to home page
                 routeParams: {}
+            };
+
+        case 'TOURS_FETCHED':
+            return {
+                ...state,
+                tours: action.payload
             };
 
         default:
