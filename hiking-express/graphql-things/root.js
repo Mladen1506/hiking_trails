@@ -196,7 +196,13 @@ var root = {
             // if not logged in can not create our
             return false;
         }
-    }
+    },
+
+    tourGetAll: async(args, context) => {
+        console.log('tour getAll resolver');
+        const results = await Tour.find({});
+        return results;
+    },
 };
 
 module.exports = root;
