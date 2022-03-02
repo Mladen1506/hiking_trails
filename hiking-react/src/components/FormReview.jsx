@@ -9,10 +9,13 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormLabel, Radio, RadioGroup, Rating, TextareaAutosize } from '@mui/material';
 import { validator } from 'sequelize/dist/lib/utils/validator-extras';
+import { ajax } from '../utils/ajax-adapter';
 
-const FormReview = () => {
+const FormReview = (props) => {
 
   const theme = createTheme();
+
+  const tour_id = props.tour_id;
 
   const preset = {
     rating: 0,
@@ -53,11 +56,15 @@ const FormReview = () => {
       console.log(formState);
       const submitData = {
         ...formState,
-        tour_id: '3',
-        user_id: 0,
-        rating: parseInt(formState.rating)
+        rating: parseInt(formState.rating),
+        tour_id: tour_id,
+        // user_id: '???'
       };
       console.log(submitData);
+      ajax.reviewCreate(submitData)
+      .then((response)=>{
+        console.log('response for create review works', response);
+      })
     } else {
       window.alert('Form Validation Error')
     }
@@ -75,7 +82,7 @@ const FormReview = () => {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h3">
+          <Typography component="h1" variant="h5">
             Leave Review
           </Typography>
           <Box

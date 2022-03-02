@@ -104,20 +104,6 @@ ajax.myUserData = async(formData) => {
     return response;
 };
 
-
-ajax.salji_post_request = () => {
-    // regular request
-
-    // graphql request
-};
-// web browser
-ajax.sacuvaj_token_lokalno_i_trajno = (token) => {
-    // window.localStorage.setItem('hiking_token', token)
-
-    // android native app
-    // androidStorage('hiking_token', token)
-};
-
 ajax.tourCreate = async(formData) => {
     // sending request for create new tour
 
@@ -169,4 +155,38 @@ ajax.tourGetAll = async() => {
     });
     console.log('Axios response for tourGetAll works', response)
     return response;
+};
+
+ajax.reviewCreate = async(formData) => {
+    // sending request for create new review
+
+    // GRAPHQL
+    const graphql_query = {
+        query: '{ reviewCreate( rating: ' + formData.rating + ' text: "' + formData.text + '" tour_id: "' + formData.tour_id + '" )}'
+    };
+
+    // rating: 0,
+    //     text: '',
+    //     tour_id: tour_id,
+
+
+    const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
+    const response = await axios.post('http://localhost:3001/api/v2/graphql', data_prepared, {
+        headers: ajax.preparedHeadersForAxios
+    });
+    console.log('Axios response for tourCreate works', response)
+    return response;
+};
+
+ajax.salji_post_request = () => {
+    // regular request
+
+    // graphql request
+};
+// web browser
+ajax.sacuvaj_token_lokalno_i_trajno = (token) => {
+    // window.localStorage.setItem('hiking_token', token)
+
+    // android native app
+    // androidStorage('hiking_token', token)
 };

@@ -2,6 +2,7 @@ import { Rating, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { calculateAverageRating, getSingleTourById } from "../utils/tour-utils";
+import FormReview from "./FormReview";
 
 const PageSingleTour = () => {
 
@@ -12,7 +13,7 @@ const PageSingleTour = () => {
   const [tour, setTour] = useState({});
 
   useEffect(() => {
-    const tour = getSingleTourById(tour_id, tours);
+    const tour = getSingleTourById(tour_id, tours.data);
     setTour(tour);
   }, [tour_id, tours]);
 
@@ -57,6 +58,7 @@ const PageSingleTour = () => {
 
       <h3>Reviews</h3>
       {jsxReviews}
+      <FormReview tour_id= {tour_id} />
     </div>
   );
 };

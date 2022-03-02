@@ -4,6 +4,7 @@ const Glupost = require('../models/glupost-model');
 const User = require('../models/user-model');
 const AuthSession = require('../models/auth-session-model');
 const Tour = require('../models/tour-model');
+const Review = require('../models/review-model');
 
 
 //HELPERS
@@ -202,6 +203,30 @@ var root = {
         console.log('tour getAll resolver');
         const results = await Tour.find({});
         return results;
+    },
+    reviewCreate: async(args, context) => {
+        console.log('reviewCreate resolver');
+        console.log('args');
+        console.log(args);
+        const req = context;
+        const token = req.headers['x-hiking-token'];
+        console.log(token);
+        const auth = await checkIsLoggedIn(token);
+        if (auth.is_logged_in) {
+            const user_id = auth.user_id;
+
+            const results = await Review.create({
+                user_id: user_id,
+                tour_id: args.tour_id,
+                rating: args.rating,
+                text: args.text
+            });
+            console.log(results);
+            return true;
+        } else {
+            // if not logged in can not create our
+            return false;
+        }
     },
 };
 
