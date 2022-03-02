@@ -7,9 +7,17 @@ const initialState = {
     isLoggedIn: false,
     myUserName: '',
     myUserId: '',
-    tours: dummyTours,
-    tours: [],
-    reviews: dummyReviews,
+    // tours: dummyTours,
+    // tours: [],
+    tours: {
+        data: [],
+        fetching: false
+    },
+    // reviews: dummyReviews,
+    reviews: {
+        data: dummyReviews,
+        fetching: false
+    },
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -48,10 +56,30 @@ const rootReducer = (state = initialState, action) => {
                 routeParams: {}
             };
 
+        case 'TOURS_FETCHING':
+            return {
+                ...state,
+                tours: {
+                    data: [],
+                    fetching: true
+                }
+            };
+
         case 'TOURS_FETCHED':
             return {
                 ...state,
-                tours: action.payload
+                tours: {
+                    data: action.payload,
+                    fetching: false
+                }
+            };
+        case 'TOURS_FAIL':
+            return {
+                ...state,
+                tours: {
+                    data: [],
+                    fetching: false
+                }
             };
 
         default:
