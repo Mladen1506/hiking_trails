@@ -8,13 +8,15 @@ var app = require('../app');
 var debug = require('debug')('hiking-express:server');
 var http = require('http');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://hiking:test@cluster0.2zjtu.mongodb.net/hiking_db1?retryWrites=true&w=majority', {});
+const config = require('../utils/config');
+// mongoose.connect('mongodb+srv://hiking:test@cluster0.2zjtu.mongodb.net/hiking_db1?retryWrites=true&w=majority', {});
+mongoose.connect(config.MONGOOSE_CONNECT_URL, {});
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3001');
+var port = normalizePort(process.env.PORT || config.BACKEND_PORT);
 app.set('port', port);
 
 /**
