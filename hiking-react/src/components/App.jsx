@@ -45,6 +45,21 @@ const App = () => {
           }
         })
     }, 500)
+    dispatch({
+      type: 'REVIEW_FETCHING'
+    });
+    ajax.reviewGetAll()
+      .then((response) => {
+        console.log('response for review get all');
+        console.log(response);
+
+        if (response && response.data && response.data.data && Array.isArray(response.data.data.reviewGetAll)) {
+          dispatch({
+            type: 'REVIEWS_FETCHED',
+            payload: response.data.data.reviewGetAll
+          });
+        }
+      })
   }, []);
 
   const handleClickHome = (e) => {

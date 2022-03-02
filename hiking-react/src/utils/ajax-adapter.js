@@ -178,6 +178,30 @@ ajax.reviewCreate = async(formData) => {
     return response;
 };
 
+ajax.reviewGetAll = async() => {
+    // sending request to get All reviews from backend
+
+    // GRAPHQL
+
+    const graphql_query = {
+        query: '{ reviewGetAll { _id user_id tour_id rating text } }'
+    };
+
+    // _id: String
+    // user_id: String
+    // tour_id: String
+    // rating: Int
+    // text: String
+
+
+    const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
+    const response = await axios.post('http://localhost:3001/api/v2/graphql', data_prepared, {
+        headers: ajax.preparedHeadersForAxios
+    });
+    console.log('Axios response for reviewGetAll works', response)
+    return response;
+};
+
 ajax.salji_post_request = () => {
     // regular request
 
