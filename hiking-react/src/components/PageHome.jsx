@@ -1,8 +1,9 @@
 
-import { Container, CssBaseline, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from "@mui/material";
+import { Container, CssBaseline, dividerClasses, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import Spinner from "./Spinner";
 import TourItem from "./TourItem";
 
 
@@ -31,7 +32,7 @@ const PageHome = (props) => {
 
   const tours = useSelector((state) => state.tours);
 
-  const filteredTours = tours.filter((tour) => {
+  const filteredTours = tours.data.filter((tour) => {
     let test = true;
     
     // filtering po searchu
@@ -55,6 +56,12 @@ const PageHome = (props) => {
     return test;
   });
 
+  let jsxSpinner = null;
+  if (tours.fetching) {
+    jsxSpinner = (
+      <Spinner />
+    );
+  }
   let jsx = filteredTours.map((tour, index) => {
     return (
       <TourItem key={tour._id} tour={tour} />
@@ -138,6 +145,7 @@ const PageHome = (props) => {
       </Container>
 
       <h4>Tours</h4>
+      {jsxSpinner}
       {jsx}
     </>
   );
