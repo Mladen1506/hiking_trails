@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { resourceLimits } = require("worker_threads");
+const config = require('../utils/config');
 const Glupost = require('../models/glupost-model');
 const User = require('../models/user-model');
 const AuthSession = require('../models/auth-session-model');
@@ -9,11 +9,11 @@ const Review = require('../models/review-model');
 
 //HELPERS
 
-const JWT_SECRET = 'NEKA_SUPER_TAJNA_STVAR';
+// const JWT_SECRET = 'NEKA_SUPER_TAJNA_STVAR';
 
 const tokenCreate = (user_id) => {
     const token = jwt.sign({ user_id: user_id },
-        JWT_SECRET
+        config.JWT_SECRET
     );
     return token;
 };
@@ -122,7 +122,7 @@ var root = {
         // console.log(token);
         const req = context;
 
-        const token = req.headers['x-hiking-token'];
+        const token = req.headers[config.TOKEN_HEADER_KEY];
 
         // const token = args.token;
         console.log(token);
@@ -145,7 +145,7 @@ var root = {
         const req = context;
         console.log(req.headers);
 
-        const token = req.headers['x-hiking-token'];
+        const token = req.headers[config.TOKEN_HEADER_KEY];
 
         // const token = args.token;
         console.log(token);
@@ -176,7 +176,7 @@ var root = {
         console.log('args');
         console.log(args);
         const req = context;
-        const token = req.headers['x-hiking-token'];
+        const token = req.headers[config.TOKEN_HEADER_KEY];
         console.log(token);
         const auth = await checkIsLoggedIn(token);
         if (auth.is_logged_in) {
@@ -209,7 +209,7 @@ var root = {
         console.log('args');
         console.log(args);
         const req = context;
-        const token = req.headers['x-hiking-token'];
+        const token = req.headers[config.TOKEN_HEADER_KEY];
         console.log(token);
         const auth = await checkIsLoggedIn(token);
         if (auth.is_logged_in) {
