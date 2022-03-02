@@ -15,7 +15,7 @@ const initialState = {
     },
     // reviews: dummyReviews,
     reviews: {
-        data: dummyReviews,
+        data: [],
         fetching: false
     },
 };
@@ -77,6 +77,32 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 tours: {
+                    data: [],
+                    fetching: false
+                }
+            };
+
+        case 'REVIEWS_FETCHING':
+            return {
+                ...state,
+                reviews: {
+                    data: [],
+                    fetching: true
+                }
+            };
+
+        case 'REVIEWS_FETCHED':
+            return {
+                ...state,
+                reviews: {
+                    data: action.payload,
+                    fetching: false
+                }
+            };
+        case 'REVIEWS_FAIL':
+            return {
+                ...state,
+                reviews: {
                     data: [],
                     fetching: false
                 }
