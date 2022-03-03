@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PageRouter from './PageRouter';
 import { ajax } from '../utils/ajax-adapter';
-import { LOGIN_SUCCESS } from '../redux/actions';
+import { actionAuthAutoLogin, actionLoginSuccess, actionReviewsNeeded, actionRouteSet, actionToursNeeded } from '../redux/actions';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -11,56 +11,59 @@ const App = () => {
   const myUserName = useSelector(state => state.myUserName);
 
   useEffect(() => {
-    ajax.myUserData()
-      .then((response) => {
-        console.log('test 2')
-        console.log('.then() response for my user data', response)
-        if (response && response.data && response.data.data && response.data.data.myUserData && response.data.data.myUserData._id) {
-          console.log(response.data.data.myUserData)
-          const myUserData = response.data.data.myUserData;
-          dispatch({
-            type: LOGIN_SUCCESS,
-            payload: myUserData
-          });
-        }
-      })
-    console.log('test 3')
+    // ajax.myUserData()
+    //   .then((response) => {
+    //     console.log('test 2')
+    //     console.log('.then() response for my user data', response)
+    //     if (response && response.data && response.data.data && response.data.data.myUserData && response.data.data.myUserData._id) {
+    //       console.log(response.data.data.myUserData)
+    //       const myUserData = response.data.data.myUserData;
+    
+    //       dispatch(actionLoginSuccess(myUserData));
+    //     }
+    //   })
+    // console.log('test 3')
+    dispatch(actionAuthAutoLogin());
   }, []);
 
   useEffect(() => {
 
-    dispatch({
-      type: 'TOURS_FETCHING'
-    });
-    setTimeout(() => {
-      ajax.tourGetAll()
-        .then((response) => {
-          console.log('response za tour get all');
-          console.log(response);
+    // dispatch({
+    //   type: 'TOURS_FETCHING'
+    // });
+    // setTimeout(() => {
+    //   ajax.tourGetAll()
+    //     .then((response) => {
+    //       console.log('response za tour get all');
+    //       console.log(response);
 
-          if (response && response.data && response.data.data && Array.isArray(response.data.data.tourGetAll)) {
-            dispatch({
-              type: 'TOURS_FETCHED',
-              payload: response.data.data.tourGetAll
-            });
-          }
-        })
-    }, 500)
-    dispatch({
-      type: 'REVIEW_FETCHING'
-    });
-    ajax.reviewGetAll()
-      .then((response) => {
-        console.log('response for review get all');
-        console.log(response);
+    //       if (response && response.data && response.data.data && Array.isArray(response.data.data.tourGetAll)) {
+    //         dispatch({
+    //           type: 'TOURS_FETCHED',
+    //           payload: response.data.data.tourGetAll
+    //         });
+    //       }
+    //     })
+    // }, 500)
 
-        if (response && response.data && response.data.data && Array.isArray(response.data.data.reviewGetAll)) {
-          dispatch({
-            type: 'REVIEWS_FETCHED',
-            payload: response.data.data.reviewGetAll
-          });
-        }
-      })
+    dispatch(actionToursNeeded());
+    // dispatch({
+    //   type: 'REVIEW_FETCHING'
+    // });
+    // ajax.reviewGetAll()
+    //   .then((response) => {
+    //     console.log('response for review get all');
+    //     console.log(response);
+
+    //     if (response && response.data && response.data.data && Array.isArray(response.data.data.reviewGetAll)) {
+    //       dispatch({
+    //         type: 'REVIEWS_FETCHED',
+    //         payload: response.data.data.reviewGetAll
+    //       });
+    //     }
+    //   })
+    dispatch(actionReviewsNeeded());
+
   }, []);
 
   const handleClickHome = (e) => {
@@ -71,10 +74,11 @@ const App = () => {
   };
 
   const handleClickRegister = (e) => {
-    dispatch({
-      type: 'ROUTE_SET',
-      payload: 'REGISTER'
-    })
+    // dispatch({
+    //   type: 'ROUTE_SET',
+    //   payload: 'REGISTER'
+    // })
+    dispatch(actionRouteSet('REGISTER'));
   };
 
   const handleClickLogin = (e) => {
@@ -108,10 +112,7 @@ const App = () => {
     })
   };
   const handleClickMyTours = (e) => {
-    dispatch({
-      type: 'ROUTE_SET',
-      payload: 'MY_TOURS'
-    })
+    dispatch(actionRouteSet('MY_TOURS'));
   };
   const handleClickAddReview = (e) => {
     dispatch({
