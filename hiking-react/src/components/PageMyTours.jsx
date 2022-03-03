@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { actionRouteSet, actionRouteWithParamsSet } from "../redux/actions";
 import Spinner from "./Spinner";
 import TourItem from "./TourItem";
 
@@ -10,10 +11,7 @@ const PageMyTours = (props) => {
   const tours = useSelector((state) => state.tours);
 
   const handleClickAddTour = (e) => {
-    dispatch({
-      type: 'ROUTE_SET',
-      payload: 'ADD_TOUR'
-    })
+    dispatch(actionRouteSet('ADD_TOUR'));
   };
   const _handleClickEditTour = (tour_id) => {
     dispatch({
@@ -24,7 +22,10 @@ const PageMyTours = (props) => {
           tour_id: tour_id
         }
       }
-    })
+    });
+    dispatch(actionRouteWithParamsSet('EDIT_TOUR',{
+      tour_id: tour_id
+  }))
   };
 
   const myTours = tours.data;

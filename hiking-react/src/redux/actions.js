@@ -21,6 +21,16 @@ export const actionRouteSet = (route) => {
     };
 };
 
+export const actionRouteWithParamsSet = (route, params) => {
+    return {
+        type: 'ROUTE_WITH_PARAMS_SET',
+        payload: {
+            route: route,
+            params: params
+        }
+    };
+};
+
 
 export const actionLoginSuccess = (myUserData) => {
     // ACTIONS CREATOR
@@ -40,12 +50,54 @@ export const actionAuthAutoLogin = () => {
                 if (response && response.data && response.data.data && response.data.data.myUserData && response.data.data.myUserData._id) {
                     console.log(response.data.data.myUserData)
                     const myUserData = response.data.data.myUserData;
-                    // dispatch({
-                    //   type: LOGIN_SUCCESS,
-                    //   payload: myUserData
-                    // });
+
                     dispatch(actionLoginSuccess(myUserData));
                 }
+            })
+    };
+};
+
+export const actionAuthFormLogin = (formState) => {
+    //THUNK
+    return (dispatch) => {
+        ajax.authLogin(formState)
+            .then((response) => {
+                console.log(response);
+                if (response && response.data && response.data.data && response.data.data.authLogin) {
+                    const token = response.data.data.authLogin;
+                    ajax.storeToken(token); // saving token on hard disc
+                    ajax.configureHeaders(token);
+                    // FORM LOGIN PROCEDURE DONE
+                    dispatch(actionAuthAutoLogin()); // AUTOLOGIN PROCEDURE
+                }
+            })
+    };
+};
+
+export const actionAuthRegister = (formState) => {
+    //THUNK
+    return (dispatch) => {
+        ajax.authRegister(formState)
+            .then(() => {
+                dispatch({
+                    type: ROUTE_SET,
+                    payload: 'LOGIN'
+                })
+            })
+    };
+};
+
+export const actionAuthLogout = () => {
+    //THUNK
+    return (dispatch) => {
+        ajax.authLogout()
+            .then(() => {
+                ajax.deleteStoredToken();
+                ajax.configureHeaders(null);
+                dispatch({
+                    type: LOGOUT
+                });
+
             })
     };
 };
@@ -89,6 +141,26 @@ export const actionReviewsNeeded = () => {
                         payload: response.data.data.reviewGetAll
                     });
                 }
+            })
+    };
+};
+
+export const actionReviewCreate = (formState) => {
+    //THUNK
+    return (dispatch) => {
+        ajax.reviewCreate(formState)
+            .then((response) => {
+                console.log('response for create review works', response);
+            })
+    };
+};
+
+export const actionTourCreate = (formState) => {
+    //THUNK
+    return (dispatch) => {
+        ajax.tourCreate(formState)
+            .then((response) => {
+                console.log(response);
             })
     };
 };

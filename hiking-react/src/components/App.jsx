@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { actionAuthAutoLogin, actionAuthLogout, actionReviewsNeeded, actionRouteSet, actionToursNeeded } from '../redux/actions';
 import PageRouter from './PageRouter';
-import { ajax } from '../utils/ajax-adapter';
-import { actionAuthAutoLogin, actionLoginSuccess, actionReviewsNeeded, actionRouteSet, actionToursNeeded } from '../redux/actions';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -11,114 +10,46 @@ const App = () => {
   const myUserName = useSelector(state => state.myUserName);
 
   useEffect(() => {
-    // ajax.myUserData()
-    //   .then((response) => {
-    //     console.log('test 2')
-    //     console.log('.then() response for my user data', response)
-    //     if (response && response.data && response.data.data && response.data.data.myUserData && response.data.data.myUserData._id) {
-    //       console.log(response.data.data.myUserData)
-    //       const myUserData = response.data.data.myUserData;
-    
-    //       dispatch(actionLoginSuccess(myUserData));
-    //     }
-    //   })
-    // console.log('test 3')
     dispatch(actionAuthAutoLogin());
   }, []);
 
   useEffect(() => {
 
-    // dispatch({
-    //   type: 'TOURS_FETCHING'
-    // });
-    // setTimeout(() => {
-    //   ajax.tourGetAll()
-    //     .then((response) => {
-    //       console.log('response za tour get all');
-    //       console.log(response);
-
-    //       if (response && response.data && response.data.data && Array.isArray(response.data.data.tourGetAll)) {
-    //         dispatch({
-    //           type: 'TOURS_FETCHED',
-    //           payload: response.data.data.tourGetAll
-    //         });
-    //       }
-    //     })
-    // }, 500)
-
     dispatch(actionToursNeeded());
-    // dispatch({
-    //   type: 'REVIEW_FETCHING'
-    // });
-    // ajax.reviewGetAll()
-    //   .then((response) => {
-    //     console.log('response for review get all');
-    //     console.log(response);
-
-    //     if (response && response.data && response.data.data && Array.isArray(response.data.data.reviewGetAll)) {
-    //       dispatch({
-    //         type: 'REVIEWS_FETCHED',
-    //         payload: response.data.data.reviewGetAll
-    //       });
-    //     }
-    //   })
     dispatch(actionReviewsNeeded());
 
   }, []);
 
   const handleClickHome = (e) => {
-    dispatch({
-      type: 'ROUTE_SET',
-      payload: 'HOME'
-    })
+    dispatch(actionRouteSet('HOME'));
   };
 
   const handleClickRegister = (e) => {
-    // dispatch({
-    //   type: 'ROUTE_SET',
-    //   payload: 'REGISTER'
-    // })
     dispatch(actionRouteSet('REGISTER'));
   };
 
   const handleClickLogin = (e) => {
-    dispatch({
-      type: 'ROUTE_SET',
-      payload: 'LOGIN'
-    })
+    dispatch(actionRouteSet('LOGIN'));
   };
-  const handleClickLogout = (e) => {
-    ajax.authLogout()
-      .then(() => {
-        ajax.deleteStoredToken();
-        ajax.configureHeaders(null);
-        dispatch({
-          type: 'LOGOUT'
-        });
 
-      })
+  const handleClickLogout = (e) => {
+    dispatch(actionAuthLogout());
   };
 
   const handleClickAbout = (e) => {
-    dispatch({
-      type: 'ROUTE_SET',
-      payload: 'ABOUT'
-    })
+    dispatch(actionRouteSet('ABOUT'));
   };
+
   const handleClickAddTour = (e) => {
-    dispatch({
-      type: 'ROUTE_SET',
-      payload: 'ADD_TOUR'
-    })
+    dispatch(actionRouteSet('ADD_TOUR'));
   };
+
   const handleClickMyTours = (e) => {
     dispatch(actionRouteSet('MY_TOURS'));
   };
+
   const handleClickAddReview = (e) => {
-    dispatch({
-      type: 'ROUTE_SET',
-      payload: 'ADD_REVIEW'
-    })
+    dispatch(actionRouteSet('ADD_REVIEW'));
   };
 
   let jsxLoggedInMessage = null;
@@ -134,8 +65,8 @@ const App = () => {
         <div onClick={handleClickHome}>Home</div>
         <div onClick={handleClickLogout}>Logout</div>
         <div onClick={handleClickMyTours}>My Tours</div>
-        <div onClick={handleClickAddTour}>Add Tour</div>
-        <div onClick={handleClickAddReview}>Add Review</div>
+        {/* <div onClick={handleClickAddTour}>Add Tour</div>
+        <div onClick={handleClickAddReview}>Add Review</div> */}
         <div onClick={handleClickAbout}>About...</div>
       </>
     );

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { actionReviewCreate } from '../redux/actions';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -8,11 +10,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormLabel, Radio, RadioGroup, Rating, TextareaAutosize } from '@mui/material';
-import { validator } from 'sequelize/dist/lib/utils/validator-extras';
-import { ajax } from '../utils/ajax-adapter';
 
 const FormReview = (props) => {
 
+  const dispatch = useDispatch();
   const theme = createTheme();
 
   const tour_id = props.tour_id;
@@ -61,10 +62,7 @@ const FormReview = (props) => {
         // user_id: '???'
       };
       console.log(submitData);
-      ajax.reviewCreate(submitData)
-      .then((response)=>{
-        console.log('response for create review works', response);
-      })
+      dispatch(actionReviewCreate(submitData));
     } else {
       window.alert('Form Validation Error')
     }
