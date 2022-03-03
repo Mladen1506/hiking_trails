@@ -1,5 +1,6 @@
 import { Rating, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { actionRouteWithParamsSet } from "../redux/actions";
 import { calculateAverageRating } from "../utils/tour-utils";
 
 const TourItem = (props) => {
@@ -14,16 +15,11 @@ const TourItem = (props) => {
 
   
   const handleClickSingleTour = (e) => {
-    dispatch({
-      type: 'ROUTE_WITH_PARAMS_SET',
-      payload: {
-        route:'TOUR',
-        params: {
-          tour_id: tour_id
-        }
-      }
-    })
-  }
+    
+    dispatch(actionRouteWithParamsSet('TOUR',{
+      tour_id: tour_id
+  }))
+  };
 
   return (
     <div>

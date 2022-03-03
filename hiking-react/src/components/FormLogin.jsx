@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { actionAuthFormLogin } from '../redux/actions';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,8 +14,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { ajax } from '../utils/ajax-adapter';
-import { useDispatch } from 'react-redux';
 
 const FormLogin = () => {
   const dispatch = useDispatch();
@@ -55,30 +55,7 @@ const FormLogin = () => {
       // ukoliko je prosla validacija
       console.log('click submit...')
       console.log(formState)
-      ajax.authLogin(formState)
-      .then((response) => {
-        console.log(response);
-        if (response && response.data && response.data.data && response.data.data.authLogin) {
-          const token = response.data.data.authLogin;
-          ajax.storeToken(token); // saving token on hard disc
-          ajax.configureHeaders(token); 
-          // FORM LOGIN PROCEDURE DONE
-          ajax.myUserData()
-      .then((response) => {
-        console.log('test 2')
-        console.log('.then() response for my user data', response)
-        if (response && response.data && response.data.data && response.data.data.myUserData && response.data.data.myUserData._id) {
-          console.log(response.data.data.myUserData)
-          const myUserData = response.data.data.myUserData;
-          dispatch({
-            type: 'LOGIN_SUCCESS',
-            payload: myUserData
-          });
-        }
-      })
-
-        }
-      })
+      dispatch(actionAuthFormLogin(formState)); //FORM LOGIN PROCEDURE
     } else {
       // if validation failed
       window.alert('Form validation Error :(')
