@@ -55,14 +55,14 @@ const FormReview = (props) => {
       //ako prodje validaciju
       console.log('submit...');
       console.log(formState);
-      const submitData = {
+      const formState2 = {
         ...formState,
         rating: parseInt(formState.rating),
         tour_id: tour_id,
         // user_id: '???'
       };
-      console.log(submitData);
-      dispatch(actionReviewCreate(submitData));
+      console.log(formState2);
+      dispatch(actionReviewCreate(formState2));
     } else {
       window.alert('Form Validation Error')
     }
