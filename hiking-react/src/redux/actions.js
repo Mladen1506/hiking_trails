@@ -164,3 +164,13 @@ export const actionTourCreate = (formState) => {
             })
     };
 };
+
+export const actionTourUpdate = (formState) => {
+    //THUNK
+    return (dispatch) => {
+        ajax.tourUpdate(formState)
+            .then((response) => {
+                console.log(response);
+            })
+    };
+};

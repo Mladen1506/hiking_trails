@@ -199,6 +199,48 @@ var root = {
         }
     },
 
+    tourUpdate: async(args, context) => {
+        console.log('tourCreate resolver');
+        console.log('args');
+        console.log(args);
+        const req = context;
+        const token = req.headers[config.TOKEN_HEADER_KEY];
+        console.log(token);
+        const auth = await checkIsLoggedIn(token);
+        if (auth.is_logged_in) {
+            const user_id = auth.user_id;
+
+
+            const results = await Tour.findOneAndUpdate({
+                tour_id: args.tour_id,
+                user_id: user_id
+            }, {
+                // user_id: user_id,
+                name: args.name,
+                description: args.description,
+                date: args.date,
+                difficulty: args.difficulty,
+                trail_length: args.trail_length,
+                max_participants: args.max_participants
+
+            });
+
+
+
+
+
+            // create({
+            // });
+
+
+            console.log(results);
+            return true;
+        } else {
+            // if not logged in can not create our
+            return false;
+        }
+    },
+
     tourGetAll: async(args, context) => {
         console.log('tour getAll resolver');
         const results = await Tour.find({});
@@ -228,6 +270,8 @@ var root = {
             return false;
         }
     },
+
+
     reviewGetAll: async(args, context) => {
         console.log('review getAll resolver');
         const results = await Review.find({});
