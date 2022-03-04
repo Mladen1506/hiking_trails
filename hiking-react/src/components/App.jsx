@@ -13,12 +13,6 @@ const App = () => {
     dispatch(actionAuthAutoLogin());
   }, []);
 
-  useEffect(() => {
-
-    dispatch(actionToursNeeded());
-    dispatch(actionReviewsNeeded());
-
-  }, []);
 
   const handleClickHome = (e) => {
     dispatch(actionRouteSet('HOME'));

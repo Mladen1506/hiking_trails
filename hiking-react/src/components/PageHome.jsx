@@ -1,14 +1,24 @@
 
 import { Container, CssBaseline, dividerClasses, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { actionReviewsNeeded, actionToursNeeded } from "../redux/actions";
 import Spinner from "./Spinner";
 import TourItem from "./TourItem";
 
 
 
 const PageHome = (props) => {
+  const dispatch = useDispatch();
+  const routeFreshness = useSelector((state) => state.routeFreshness);
+
+  useEffect(() => {
+
+    dispatch(actionToursNeeded());
+    dispatch(actionReviewsNeeded());
+
+  }, [routeFreshness]);
 
   const preset = {
     search: '',
@@ -34,7 +44,7 @@ const PageHome = (props) => {
 
   const filteredTours = tours.data.filter((tour) => {
     let test = true;
-    
+
     // filtering po searchu
     if (formState.search !== '') {
       if (tour.name.toUpperCase().includes(formState.search.toUpperCase()) || tour.description.includes(formState.search.toUpperCase())) {

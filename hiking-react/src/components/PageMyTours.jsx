@@ -1,31 +1,31 @@
 import { Button } from "@mui/material";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionRouteSet, actionRouteWithParamsSet } from "../redux/actions";
+import { actionReviewsNeeded, actionRouteSet, actionRouteWithParamsSet, actionToursNeeded } from "../redux/actions";
 import Spinner from "./Spinner";
 import TourItem from "./TourItem";
 
 
 
 const PageMyTours = (props) => {
-  const dispatch = useDispatch ();
+  const dispatch = useDispatch();
   const tours = useSelector((state) => state.tours);
+  const routeFreshness = useSelector((state) => state.routeFreshness);
+
+  useEffect(() => {
+
+    dispatch(actionToursNeeded());
+    dispatch(actionReviewsNeeded());
+
+  }, [routeFreshness]);
 
   const handleClickAddTour = (e) => {
     dispatch(actionRouteSet('ADD_TOUR'));
   };
   const _handleClickEditTour = (tour_id) => {
-    dispatch({
-      type: 'ROUTE_WITH_PARAMS_SET',
-      payload: {
-        route:'EDIT_TOUR',
-        params: {
-          tour_id: tour_id
-        }
-      }
-    });
-    dispatch(actionRouteWithParamsSet('EDIT_TOUR',{
+    dispatch(actionRouteWithParamsSet('EDIT_TOUR', {
       tour_id: tour_id
-  }))
+    }))
   };
 
   const myTours = tours.data;
@@ -47,8 +47,8 @@ const PageMyTours = (props) => {
             type="button"
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            onClick={(e) => {_handleClickEditTour(tour_id) }}
-          >Edit</Button> 
+            onClick={(e) => { _handleClickEditTour(tour_id) }}
+          >Edit</Button>
           <Button
             type="button"
             color="error"
