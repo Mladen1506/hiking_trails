@@ -115,14 +115,6 @@ ajax.tourCreate = async(formData) => {
         query: '{ tourCreate( name: "' + formData.name + '" description: "' + formData.description + '" date: "' + formData.date + '" difficulty: "' + formData.difficulty + '" trail_length: ' + formData.trail_length + ' max_participants: ' + formData.max_participants + ')}'
     };
 
-    // name: '',
-    //     description: '',
-    //     date: '02/09/2022',
-    //     trail_length: '1',
-    //     difficulty: '',
-    //     max_participants: '10'
-
-
     const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
     const response = await axios.post(urlLib.apiGraphQL(), data_prepared, {
         headers: ajax.preparedHeadersForAxios
@@ -192,14 +184,6 @@ ajax.tourGetAll = async() => {
         query: '{ tourGetAll { _id name description date difficulty trail_length max_participants user_id } }'
     };
 
-    // name: '',
-    //     description: '',
-    //     date: '02/09/2022',
-    //     trail_length: '1',
-    //     difficulty: '',
-    //     max_participants: '10'
-
-
     const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
     const response = await axios.post(urlLib.apiGraphQL(), data_prepared, {
         headers: ajax.preparedHeadersForAxios
@@ -238,13 +222,6 @@ ajax.reviewGetAll = async() => {
         query: '{ reviewGetAll { _id user_id tour_id rating text } }'
     };
 
-    // _id: String
-    // user_id: String
-    // tour_id: String
-    // rating: Int
-    // text: String
-
-
     const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
     const response = await axios.post(urlLib.apiGraphQL(), data_prepared, {
         headers: ajax.preparedHeadersForAxios
@@ -252,6 +229,22 @@ ajax.reviewGetAll = async() => {
     console.log('Axios response for reviewGetAll works', response)
     return response;
 };
+
+ajax.userProfileGet = async(user_id) => {
+
+    // GRAPHQL
+    const graphql_query = {
+        query: '{ userProfileGet( user_id: "' + user_id + '") { is_success _id username } }'
+    };
+
+    const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
+    const response = await axios.post(urlLib.apiGraphQL(), data_prepared, {
+        headers: ajax.preparedHeadersForAxios
+    });
+    console.log('Axios response for userProfileGet works', response)
+    return response;
+};
+
 
 ajax.salji_post_request = () => {
     // regular request

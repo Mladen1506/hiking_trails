@@ -41,6 +41,7 @@ type Review {
     tourGetAll: [Tour]
     reviewCreate(rating: Int, text: String, tour_id: String): Boolean
     reviewGetAll: [Review]
+    userProfileGet(user_id: String): User
   }
 `);
 
