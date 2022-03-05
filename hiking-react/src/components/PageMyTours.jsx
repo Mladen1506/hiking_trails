@@ -58,7 +58,6 @@ const PageMyTours = (props) => {
       <tr key={tour._id}>
         <td><TourItem tour={tour} /></td>
         <td>
-          {'id:' + tour_id}
           <Button
             type="button"
             variant="contained"
