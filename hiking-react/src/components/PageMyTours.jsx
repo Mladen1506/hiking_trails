@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionReviewsNeeded, actionRouteSet, actionRouteWithParamsSet, actionToursNeeded } from "../redux/actions";
+import { actionReviewsNeeded, actionRouteSet, actionRouteWithParamsSet, actionTourDelete, actionToursNeeded } from "../redux/actions";
 import Spinner from "./Spinner";
 import TourItem from "./TourItem";
 
@@ -11,6 +11,8 @@ const PageMyTours = (props) => {
   const dispatch = useDispatch();
   const tours = useSelector((state) => state.tours);
   const routeFreshness = useSelector((state) => state.routeFreshness);
+  const myUserId = useSelector((state) => state.myUserId);
+
 
   useEffect(() => {
 
@@ -22,13 +24,26 @@ const PageMyTours = (props) => {
   const handleClickAddTour = (e) => {
     dispatch(actionRouteSet('ADD_TOUR'));
   };
+
   const _handleClickEditTour = (tour_id) => {
     dispatch(actionRouteWithParamsSet('EDIT_TOUR', {
       tour_id: tour_id
     }))
   };
 
-  const myTours = tours.data;
+  const _handleClickDeleteTour = (tour_id) => {
+    if (window.confirm('Are you sure you want to delete this tour?')) {
+      console.log('Deleting tour_id:', tour_id);
+      dispatch(actionTourDelete(tour_id));
+    }
+  };
+
+  const myTours = tours.data.filter((tour) => {
+    if (tour.user_id === myUserId) {
+      return true;
+    }
+    return false;
+  })
 
   let jsxSpinner = null;
   if (tours.fetching) {
@@ -43,6 +58,7 @@ const PageMyTours = (props) => {
       <tr key={tour._id}>
         <td><TourItem tour={tour} /></td>
         <td>
+          {'id:' + tour_id}
           <Button
             type="button"
             variant="contained"
@@ -54,6 +70,7 @@ const PageMyTours = (props) => {
             color="error"
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            onClick={(e) => { _handleClickDeleteTour(tour_id) }}
           >Delete</Button>
         </td>
       </tr>

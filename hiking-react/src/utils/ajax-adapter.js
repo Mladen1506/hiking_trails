@@ -155,6 +155,30 @@ ajax.tourUpdate = async(formData) => {
     return response;
 };
 
+ajax.tourDelete = async(tour_id) => {
+    // sending request for tourDelete new tour
+
+    // GRAPHQL
+    const graphql_query = {
+        query: '{ tourDelete( tour_id: "' + tour_id + '")}'
+    };
+
+    // name: '',
+    //     description: '',
+    //     date: '02/09/2022',
+    //     trail_length: '1',
+    //     difficulty: '',
+    //     max_participants: '10'
+
+
+    const data_prepared = convert_to_json(graphql_query); // ENCODE to json..
+    const response = await axios.post(urlLib.apiGraphQL(), data_prepared, {
+        headers: ajax.preparedHeadersForAxios
+    });
+    console.log('Axios response for tourDelete works', response)
+    return response;
+};
+
 ajax.tourGetAll = async() => {
     // sending request to get All tours from backend
 

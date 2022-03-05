@@ -180,3 +180,14 @@ export const actionTourUpdate = (formState) => {
             })
     };
 };
+
+export const actionTourDelete = (formState) => {
+    //THUNK
+    return (dispatch) => {
+        ajax.tourDelete(formState)
+            .then((response) => {
+                console.log(response);
+                dispatch(actionRouteSet('MY_TOURS'));
+            })
+    };
+};
