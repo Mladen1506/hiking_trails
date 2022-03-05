@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { actionAuthAutoLogin, actionAuthLogout, actionReviewsNeeded, actionRouteSet, actionToursNeeded } from '../redux/actions';
+import { actionAuthAutoLogin, actionAuthLogout, actionRouteSet } from '../redux/actions';
 import PageRouter from './PageRouter';
 
 const App = () => {
@@ -13,12 +13,6 @@ const App = () => {
     dispatch(actionAuthAutoLogin());
   }, []);
 
-  useEffect(() => {
-
-    dispatch(actionToursNeeded());
-    dispatch(actionReviewsNeeded());
-
-  }, []);
 
   const handleClickHome = (e) => {
     dispatch(actionRouteSet('HOME'));

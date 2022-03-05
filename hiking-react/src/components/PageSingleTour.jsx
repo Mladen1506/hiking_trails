@@ -1,16 +1,25 @@
 import { Rating, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { actionReviewsNeeded } from "../redux/actions";
 import { calculateAverageRating, getSingleTourById } from "../utils/tour-utils";
 import FormReview from "./FormReview";
 
-const PageSingleTour = () => {
 
+const PageSingleTour = () => {
+  const dispatch = useDispatch();
   const tours = useSelector((state) => state.tours);
   const routeParams = useSelector((state) => state.routeParams);
   const tour_id = routeParams.tour_id;
   const reviews = useSelector(state => state.reviews);
   const [tour, setTour] = useState({});
+  const routeFreshness = useSelector((state) => state.routeFreshness);
+
+  useEffect(() => {
+    dispatch(actionReviewsNeeded());
+
+  }, [routeFreshness]);
 
   useEffect(() => {
     const tour = getSingleTourById(tour_id, tours.data);

@@ -2,6 +2,7 @@ import { ajax } from "../utils/ajax-adapter";
 
 export const ROUTE_SET = 'ROUTE_SET';
 export const ROUTE_WITH_PARAMS_SET = 'ROUTE_WITH_PARAMS_SET';
+export const REFRESH = 'REFRESH';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGOUT = 'LOGOUT';
 export const TOURS_FETCHING = 'TOURS_FETCHING';
@@ -23,7 +24,7 @@ export const actionRouteSet = (route) => {
 
 export const actionRouteWithParamsSet = (route, params) => {
     return {
-        type: 'ROUTE_WITH_PARAMS_SET',
+        type: ROUTE_WITH_PARAMS_SET,
         payload: {
             route: route,
             params: params
@@ -151,6 +152,9 @@ export const actionReviewCreate = (formState) => {
         ajax.reviewCreate(formState)
             .then((response) => {
                 console.log('response for create review works', response);
+                dispatch({
+                    type: REFRESH
+                });
             })
     };
 };
@@ -161,6 +165,7 @@ export const actionTourCreate = (formState) => {
         ajax.tourCreate(formState)
             .then((response) => {
                 console.log(response);
+                dispatch(actionRouteSet('MY_TOURS'));
             })
     };
 };
@@ -171,6 +176,18 @@ export const actionTourUpdate = (formState) => {
         ajax.tourUpdate(formState)
             .then((response) => {
                 console.log(response);
+                dispatch(actionRouteSet('MY_TOURS'));
+            })
+    };
+};
+
+export const actionTourDelete = (formState) => {
+    //THUNK
+    return (dispatch) => {
+        ajax.tourDelete(formState)
+            .then((response) => {
+                console.log(response);
+                dispatch(actionRouteSet('MY_TOURS'));
             })
     };
 };
