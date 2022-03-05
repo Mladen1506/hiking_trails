@@ -289,6 +289,13 @@ var root = {
         const results = await Review.find({});
         return results;
     },
+    userProfileGet: async(args, context) => {
+        console.log('userProfileGet resolver');
+        const results = await User.findOne({
+            _id: args.user_id
+        });
+        return results;
+    }
 
 };
 
